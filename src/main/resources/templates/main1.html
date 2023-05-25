@@ -3,12 +3,13 @@
         fetch('/count1')
             .then(response => response.json())
             .then(json => {
-                document.querySelector('.count-1-display').innerHTML = `
-                <span style="color:blue" th:text="${data.json}"></span>
-                <span style="color:blue" th:text="${data.json + 1}"></span>
-                <span style="color:blue" th:text="${data.json + 2}"></span>
-                <span style="color:blue" th:text="${data.json + 3}"></span>
-                `;
+                const display = document.querySelector('.count-1-display');
+
+                // $(display).find('.count-1-display__part-1').html(json.data);
+                display.querySelector('.count-1-display__part-1').innerHTML = json.data;
+                display.querySelector('.count-1-display__part-2').innerHTML = json.data + 1;
+                display.querySelector('.count-1-display__part-3').innerHTML = json.data + 2;
+                display.querySelector('.count-1-display__part-4').innerHTML = json.data + 3;
             });
 
         // 1초 뒤에 Count1__updateDisplay 함수가 다시 실행되도록 예약
@@ -44,10 +45,10 @@
 공간 1(자동갱신 적용됨)
 <button onclick="Count1__updateDisplay();">갱신</button>
 <div class="box count-1-display">
-    <span style="color:blue" th:text="${count1}"></span>
-    <span style="color:blue" th:text="${count1 + 1}"></span>
-    <span style="color:blue" th:text="${count1 + 2}"></span>
-    <span style="color:blue" th:text="${count1 + 3}"></span>
+    <span class="count-1-display__part-1" style="color:blue"></span>
+    <span class="count-1-display__part-2" style="color:green"></span>
+    <span class="count-1-display__part-3" style="color:black"></span>
+    <span class="count-1-display__part-4" style="color:pink"></span>
 </div>
 공간 2
 <button onclick="Count2__updateDisplay();">갱신</button>
