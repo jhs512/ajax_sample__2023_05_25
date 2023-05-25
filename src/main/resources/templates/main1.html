@@ -1,31 +1,4 @@
-<script>
-    function Count1__updateDisplay() {
-        fetch('/count1')
-            .then(response => response.json())
-            .then(json => {
-                const display = document.querySelector('.count-1-display');
-
-                // $(display).find('.count-1-display__part-1').html(json.data);
-                display.querySelector('.count-1-display__part-1').innerHTML = json.data;
-                display.querySelector('.count-1-display__part-2').innerHTML = json.data + 1;
-                display.querySelector('.count-1-display__part-3').innerHTML = json.data + 2;
-                display.querySelector('.count-1-display__part-4').innerHTML = json.data + 3;
-            });
-
-        // 1초 뒤에 Count1__updateDisplay 함수가 다시 실행되도록 예약
-        setTimeout(Count1__updateDisplay, 5000);
-    }
-
-    function Count2__updateDisplay() {
-        fetch('/count2')
-            .then(response => response.json())
-            .then(json => {
-                document.querySelector('.count-2-display').innerHTML = json.data;
-            });
-    }
-
-    Count1__updateDisplay();
-</script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
 <style>
     .box {
@@ -45,11 +18,47 @@
 공간 1(자동갱신 적용됨)
 <button onclick="Count1__updateDisplay();">갱신</button>
 <div class="box count-1-display">
-    <span class="count-1-display__part-1" style="color:blue"></span>
-    <span class="count-1-display__part-2" style="color:green"></span>
-    <span class="count-1-display__part-3" style="color:black"></span>
-    <span class="count-1-display__part-4" style="color:pink"></span>
+    <span style="color:blue">{{ count }}</span>
+    <span style="color:green">{{ count + 1 }}</span>
+    <span style="color:black">{{ count + 2 }}</span>
+    <span style="color:pink">{{ count + 3 }}</span>
 </div>
+
+<script>
+    const {createApp} = Vue
+
+    const box1 = createApp({
+        data() {
+            return {
+                count: 55
+            }
+        }
+    }).mount('.count-1-display');
+</script>
+
+<script>
+    function Count1__updateDisplay() {
+        fetch('/count1')
+            .then(response => response.json())
+            .then(json => {
+                box1.count = json.data;
+            });
+
+        // 1초 뒤에 Count1__updateDisplay 함수가 다시 실행되도록 예약
+        setTimeout(Count1__updateDisplay, 5000);
+    }
+
+    function Count2__updateDisplay() {
+        fetch('/count2')
+            .then(response => response.json())
+            .then(json => {
+                document.querySelector('.count-2-display').innerHTML = json.data;
+            });
+    }
+
+    Count1__updateDisplay();
+</script>
+
 공간 2
 <button onclick="Count2__updateDisplay();">갱신</button>
 <div class="box count-2-display">
